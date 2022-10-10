@@ -17,11 +17,10 @@ import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 // Sentry imports
 import { Scope } from '@sentry/hub';
-import { Handlers, SeverityLevel } from '@sentry/node';
+import { Handlers } from '@sentry/node';
 
 import { SentryService } from './sentry.service';
-import { SentryInterceptorOptions, SentryInterceptorOptionsFilter, SentryLevelFunction } from './sentry.interfaces';
-import { ParseRequestOptions } from "@sentry/node/types/requestDataDeprecated";
+import { SentryInterceptorOptions, SentryInterceptorOptionsFilter } from './sentry.interfaces';
 
 
 @Injectable()
