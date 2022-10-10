@@ -23,7 +23,7 @@ let SentryInterceptor = class SentryInterceptor {
         return next.handle().pipe((0, operators_1.tap)(null, (exception) => {
             if (this.shouldReport(exception)) {
                 this.client.instance().withScope((scope) => {
-                    this.captureException(context, scope, exception);
+                    return this.captureException(context, scope, exception);
                 });
             }
         }));
@@ -39,7 +39,9 @@ let SentryInterceptor = class SentryInterceptor {
         }
     }
     captureHttpException(scope, http, exception) {
-        const data = node_1.Handlers.parseRequest({}, http.getRequest(), this.options);
+        var _a, _b;
+        const level = ((_a = this.options) === null || _a === void 0 ? void 0 : _a.level) ? (_b = this.options) === null || _b === void 0 ? void 0 : _b.level(exception) : undefined;
+        const data = node_1.Handlers.parseRequest({ level }, http.getRequest(), this.options);
         scope.setExtra('req', data.request);
         if (data.extra)
             scope.setExtras(data.extra);
@@ -63,7 +65,7 @@ let SentryInterceptor = class SentryInterceptor {
             const opts = this.options;
             if (opts.filters) {
                 let filters = opts.filters;
-                return filters.every(({ type, filter }) => {
+                return filters.some(({ type, filter }) => {
                     return !(exception instanceof type && (!filter || filter(exception)));
                 });
             }

@@ -28,7 +28,7 @@ export interface SentryModuleAsyncOptions extends Pick<ModuleMetadata, 'imports'
 export type SentryTransaction = boolean | 'path' | 'methodPath' | 'handler';
 
 export interface SentryFilterFunction {
-    (exception:any): boolean
+    (exception: any): boolean
 }
 
 export interface SentryInterceptorOptionsFilter {
@@ -36,12 +36,16 @@ export interface SentryInterceptorOptionsFilter {
     filter?: SentryFilterFunction;
 }
 
+export interface SentryLevelFunction {
+    (exception: any): SeverityLevel;
+}
+
 export interface SentryInterceptorOptions {
     filters?: SentryInterceptorOptionsFilter[];
     tags?: { [key: string]: string };
     extra?: { [key: string]: any };
     fingerprint?: string[];
-    level?: SeverityLevel;
+    level?: SentryLevelFunction;
 
     // https://github.com/getsentry/sentry-javascript/blob/master/packages/node/src/handlers.ts#L163
     request?: boolean;
